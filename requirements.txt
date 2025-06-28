@@ -1,0 +1,44 @@
+# Core Web Framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# Deep Learning and AI
+tensorflow==2.13.0
+keras==2.13.1
+
+# Image Processing
+Pillow==10.0.1
+opencv-python==4.8.1.78
+
+# Data Processing
+numpy==1.24.3
+pandas==2.0.3
+
+# PDF Generation
+fpdf==1.7.2
+
+# File Handling and Utilities
+python-magic==0.4.27
+
+# Development and Testing (Optional)
+pytest==7.4.2
+pytest-flask==1.2.0
+
+# Jupyter Notebook Support (for model training)
+jupyter==1.0.0
+ipykernel==6.25.1
+notebook==7.0.2
+
+# Additional ML Libraries (for model training)
+scikit-learn==1.3.0
+matplotlib==3.7.2
+seaborn==0.12.2
+
+# Security and Validation
+python-dotenv==1.0.0
+
+# Logging and Monitoring
+colorlog==6.7.0
+
+# Optional: GPU Support (uncomment if you have CUDA)
+# tensorflow-gpu==2.13.0 
