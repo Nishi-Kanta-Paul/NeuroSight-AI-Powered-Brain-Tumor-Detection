@@ -1,0 +1,42 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titling}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{MRI Tumor Detection Report}} \\
+    \vspace{0.5cm}
+    {\small Generated on: \reportDate}
+\end{center}
+
+\section*{Patient Information}
+\begin{itemize}
+    \item \textbf{Name}: \patientName
+    \item \textbf{Age}: \patientAge
+\end{itemize}
+
+\section*{Analysis Results}
+\begin{itemize}
+    \item \textbf{Result}: \result
+    \item \textbf{Confidence}: \confidence\%
+    \item \textbf{Description}: \tumorInfo
+\end{itemize}
+
+\section*{MRI Image}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{\imagePath}
+\end{center}
+
+\section*{Note}
+This is an AI-generated report. Please consult a medical professional for an accurate diagnosis.
+
+\end{document}

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MRI Tumor Detection System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+      }
+      .progress-bar {
+        transition: width 0.3s ease-in-out;
+      }
+      .theme-toggle-icon {
+        transition: transform 0.3s ease;
+      }
+      .theme-toggle-icon:hover {
+        transform: scale(1.1);
+      }
+      input,
+      button {
+        transition: all 0.2s ease-in-out;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-300"
+  >
+    <div class="container mx-auto max-w-6xl p-8">
+      <!-- Header -->
+      <header class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="text-3xl font-semibold text-teal-700 dark:text-teal-300">
+            MRI Tumor Detection System
+          </h1>
+          <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            AI-powered analysis for brain MRI scans
+          </p>
+        </div>
+        <button
+          id="themeToggle"
+          class="text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 focus:outline-none"
+          aria-label="Toggle theme"
+        >
+          <svg
+            class="theme-toggle-icon w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              id="sun"
+              d="M10 2a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 0110 2zm0 13a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2a.5.5 0 01.5-.5zM2.5 5.5a.5.5 0 01.707 0L4.93 7.22a.5.5 0 01-.707.707L2.5 6.207a.5.5 0 010-.707zM15.07 12.78a.5.5 0 010 .707l-1.722 1.722a.5.5 0 01-.707-.707l1.722-1.722a.5.5 0 01.707 0zM5.5 10a.5.5 0 01-.5-.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5v1zM17.5 9.5a.5.5 0 010-1h-2a.5.5 0 01.5-.5v1a.5.5 0 01-.5.5h2zM7.22 15.07a.5.5 0 01-.707 0L4.79 13.35a.5.5 0 01.707-.707l1.722 1.722a.5.5 0 010 .707zM13.35 4.79a.5.5 0 010-.707l1.722-1.722a.5.5 0 01.707.707L13.35 4.79a.5.5 0 01-.707 0zM10 6a4 4 0 100 8 4 4 0 000-8z"
+            />
+            <path
+              id="moon"
+              class="hidden"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M10 4a6 6 0 016 6c0 2.485-1.509 4.641-3.673 5.587a.5.5 0 01-.654-.938C13.49 13.81 14.5 12.07 14.5 10a4.5 4.5 0 00-9 0c0 2.07 1.01 3.81 2.827 4.649a.5.5 0 01-.654.938C5.509 14.641 4 12.485 4 10a6 6 0 016-6z"
+            />
+          </svg>
+        </button>
+      </header>
+
+      <!-- Main Layout -->
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Left Side: Input Form -->
+        <div
+          class="w-full lg:w-1/2 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6"
+        >
+          <form
+            id="uploadForm"
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-6"
+          >
+            <div>
+              <label
+                for="patientName"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Patient Name</label
+              >
+              <input
+                type="text"
+                id="patientName"
+                name="patientName"
+                placeholder="Enter patient name"
+                class="mt-2 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-3 px-4 focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              />
+            </div>
+            <div>
+              <label
+                for="patientAge"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Patient Age</label
+              >
+              <input
+                type="number"
+                id="patientAge"
+                name="patientAge"
+                placeholder="Enter patient age"
+                min="0"
+                max="150"
+                class="mt-2 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white py-3 px-4 focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50"
+              />
+            </div>
+            <div>
+              <label
+                for="file"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >MRI Image (PNG, JPG, JPEG)</label
+              >
+              <input
+                type="file"
+                id="file"
+                name="file"
+                accept="image/png,image/jpeg,image/jpg"
+                required
+                class="mt-2 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:bg-teal-50 dark:file:bg-teal-900 file:text-teal-700 dark:file:text-teal-300 hover:file:bg-teal-100 dark:hover:file:bg-teal-800"
+              />
+            </div>
+            <div class="flex space-x-4">
+              <button
+                type="submit"
+                id="submitBtn"
+                class="w-full bg-teal-600 text-white py-3 px-4 rounded-lg hover:bg-teal-700 disabled:bg-gray-400 dark:disabled:bg-gray-600 text-sm font-medium"
+              >
+                Analyze Image
+              </button>
+              <button
+                type="button"
+                id="clearBtn"
+                class="w-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium"
+              >
+                Clear Form
+              </button>
+            </div>
+          </form>
+          <!-- Loading Indicator -->
+          <div id="loading" class="hidden text-center mt-6">
+            <div
+              class="inline-block animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-teal-600 dark:border-teal-400"
+            ></div>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mt-2">
+              Analyzing...
+            </p>
+          </div>
+          <!-- Error Message -->
+          <div
+            id="error"
+            class="hidden mt-6 p-4 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-300 rounded-lg text-sm"
+          ></div>
+        </div>
+
+        <!-- Right Side: Results -->
+        <div
+          class="w-full lg:w-1/2 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6"
+        >
+          {% if result %}
+          <div id="results">
+            <h2 class="text-xl font-semibold text-teal-600 dark:text-teal-400">
+              {{ result }}
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+              Confidence: {{ confidence }}%
+            </p>
+            <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+              Patient: {{ patientName or 'Not provided' }} | Age: {{ patientAge
+              or 'Not provided' }}
+            </p>
+            {% set conf = confidence|float %} {% if conf < 25 %} {% set
+            bar_class = 'w-1/4 bg-red-500' %} {% elif conf < 50 %} {% set
+            bar_class = 'w-1/2 bg-yellow-500' %} {% elif conf < 75 %} {% set
+            bar_class = 'w-3/4 bg-teal-500' %} {% else %} {% set bar_class =
+            'w-full bg-teal-500' %} {% endif %}
+            <div
+              class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mt-3"
+            >
+              <div class="h-3 rounded-full progress-bar {{ bar_class }}"></div>
+            </div>
+            {% if tumor_info %}
+            <p class="mt-4 text-gray-700 dark:text-gray-300 text-sm">
+              {{ tumor_info }}
+            </p>
+            {% endif %}
+            <img
+              src="{{ file_path }}"
+              class="mt-4 w-full h-auto rounded-lg shadow-sm"
+              alt="Uploaded MRI Image"
+              aria-describedby="result-description"
+            />
+            <a
+              href="/download_report/{{ filename }}?result={{ result }}&confidence={{ confidence }}&patientName={{ patientName or '' }}&patientAge={{ patientAge or '' }}"
+              class="mt-4 inline-block bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 dark:hover:bg-teal-500 text-sm font-medium"
+            >
+              Download PDF Report
+            </a>
+          </div>
+          {% else %}
+          <p class="text-gray-600 dark:text-gray-400 text-sm">
+            Upload an MRI image to view analysis results.
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Theme Toggle
+      const themeToggle = document.getElementById("themeToggle");
+      const sunIcon = document.getElementById("sun");
+      const moonIcon = document.getElementById("moon");
+      const html = document.documentElement;
+
+      themeToggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        sunIcon.classList.toggle("hidden");
+        moonIcon.classList.toggle("hidden");
+        localStorage.setItem(
+          "theme",
+          html.classList.contains("dark") ? "dark" : "light"
+        );
+      });
+
+      // Load saved theme
+      if (
+        localStorage.getItem("theme") === "dark" ||
+        (!localStorage.getItem("theme") &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        html.classList.add("dark");
+        sunIcon.classList.add("hidden");
+        moonIcon.classList.remove("hidden");
+      }
+
+      // Form Handling
+      const form = document.getElementById("uploadForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const loading = document.getElementById("loading");
+      const errorDiv = document.getElementById("error");
+      const clearBtn = document.getElementById("clearBtn");
+      const results = document.getElementById("results");
+
+      form.addEventListener("submit", () => {
+        loading.classList.remove("hidden");
+        submitBtn.disabled = true;
+        errorDiv.classList.add("hidden");
+      });
+
+      clearBtn.addEventListener("click", () => {
+        form.reset();
+        if (results) results.remove();
+        errorDiv.classList.add("hidden");
+      });
+
+      // Client-side file validation
+      document.getElementById("file").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        const validTypes = ["image/png", "image/jpeg", "image/jpg"];
+        if (file && !validTypes.includes(file.type)) {
+          errorDiv.textContent =
+            "Please upload a valid image (PNG, JPG, or JPEG).";
+          errorDiv.classList.remove("hidden");
+          e.target.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>
